@@ -1,0 +1,53 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+int n;    
+int max=0;
+void swap(int *x,int *y)
+{
+    int temp = *x;
+    *x = *y;
+    *y = temp;
+}
+int concatenate(int x, int y) {
+    int pow = 10;
+    while(y >= pow)
+        pow *= 10;
+    return x * pow + y;        
+}
+void give_num(int a[])
+{
+    int number = a[0];
+    for(int i=1;i<n;i++)
+    {
+        number = concatenate(number,a[i]);
+    }
+    if(max<number)
+        max = number;
+}
+void permute(int a[],int l,int h)
+{
+    if(l==h)
+        give_num(a);
+    else
+    {
+        for(int i=l;i<=h;i++)
+        {
+            swap(a+l,a+i);
+            permute(a,l+1,h);
+            swap(a+l,a+i);
+        }
+    }
+}
+int main()
+{
+    int arr[100],temp_arr[100];
+    printf("Enter the value of n : ");
+    scanf("%d",&n);
+    for(int i=0;i<n;i++)
+        scanf("%d",&arr[i]);
+    for(int i=0;i<n;i++)
+        temp_arr[i] = arr[i];
+    permute(arr,0,n-1);
+    printf("Max number formed is : %d",max);
+}
