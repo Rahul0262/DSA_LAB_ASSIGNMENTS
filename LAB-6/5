@@ -1,0 +1,100 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+
+typedef struct Node{
+    int data;
+    struct Node* next;
+}Node;
+
+void append(Node **head, int d){
+    Node *tmp = (Node*)malloc(sizeof(Node));
+    tmp->next = NULL;
+    tmp->data = d;
+    if((*head)==NULL){
+        *head = tmp;
+    }else{
+        Node *t = *head;
+        while((t->next)!=NULL){
+            t = t->next;
+        }
+        t->next = tmp;
+    } 
+}
+
+void traverse(Node *head){
+    while(head!=NULL){
+        printf("%d ", head->data);
+        head = head->next;
+    }
+}
+
+void add(Node **head, Node **node){
+    (*node)->next = NULL;
+    if((*head)==NULL){
+        *head = *node;
+    }else{
+        Node *tmp = *head;
+        while(tmp->next!=NULL) tmp=tmp->next;
+        tmp->next = *node;
+    }
+}
+
+Node *merge(int a, Node *heada, int b, Node *headb){
+    Node *x,*y;
+    x = heada;
+    y = headb;
+    Node *headc = NULL;
+    Node *tmp;
+    while(x!=NULL && y!=NULL){
+        if((x->data) <= (y->data)){
+            tmp = x->next;
+            add(&headc, &x);
+            x = tmp;
+        }else if((x->data) > (y->data)){
+            tmp = y->next;
+            add(&headc, &y);
+            y = tmp;
+        }
+    }
+    while(x!=NULL){
+        tmp = x->next;
+        add(&headc, &x);
+        x = tmp;
+    }
+    while(y!=NULL){
+        tmp = y->next;
+        add(&headc, &y);
+        y = tmp;
+    }
+    return headc;
+}
+
+int main(){
+    Node *head1 = NULL;
+    int n;scanf("%d", &n);
+    for(int i=0;i<n;i++){
+        int t;scanf("%d",&t);
+        append(&head1, t);
+    }
+    Node *head2 = NULL;
+    int m;scanf("%d", &m);
+    for(int i=0;i<m;i++){
+        int t;scanf("%d",&t);
+        append(&head2, t);
+    }
+
+    printf("\n");
+    traverse(head1);
+    printf("\n");
+    traverse(head2);
+    Node *headc = NULL;
+    if(n<=m){
+        headc = merge(n, head1, m, head2);
+    }else{
+        headc = merge(m, head2, n, head1);
+    }
+    printf("\n");
+    traverse(headc);
+    return 0;
+}
