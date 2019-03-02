@@ -1,93 +1,36 @@
-
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
-int visited[1000];
-int cat[1000],adj[1000][1000],leaves[1000];
-int n,m;
-int cat_cnt=0,prev,go_in;
-int dfs(int x,int y)
-{
-    if(go_in)
-    {
-        printf("executing : 1 , %d\n",y);
-        if(x==y){
-            if(cat[x] == 1 && cat_cnt+1 > m){
-                go_in = 0;
-                cat_cnt = 9999;
-            }
-            else if(cat_cnt <= m){
-                printf("leaf : %d\n",x);
-                return 1;
-            }       
-        }
-        visited[x] = 1;
-        for(int i=1;i<=n;i++)
-        {
-            if(adj[x][i] ==1 && visited[i]==0)
-            {
-                if(cat[i]==1)
-                {
-                    if(cat[prev]==1){
-                        cat_cnt++;
-                    }
-                    else{
-                        cat_cnt =0;
-                    }
-                    if(cat_cnt>m){
-                        go_in = 0;
-                        cat_cnt = 9999;
-                    }
-
-                }
-                    printf("dfs call 1 , %d\n",y);
-                prev = i;            
-                dfs(i,y);
-            }
+int adj[1000][1000],n,vis[1000],ctr,arr[100],ans,m;
+void dfs(int u, int ctr){
+    vis[u] = 1;
+    if(arr[u]==1)
+        ctr++;
+    else
+        ctr = 0;
+    if(ctr > m)
+        return;
+    int i,k=0;
+    for(i=1; i<=n; i++){
+        if(adj[u][i] == 1 && vis[i]==0){
+            dfs(i,ctr);
+            k++;
         }
     }
-    //if(cat_cnt > m){
-        return 0;
-    //}
+    if(k==0 && ctr<=m)
+        ans++;
 }
-int main()
-{
-    int flag=0,l=0,answer=0;
-    printf("Enter the value of n & m : ");
-    scanf("%d %d",&n,&m);   
-    memset(cat,0,sizeof(cat));
-    memset(adj,0,sizeof(adj));
-    memset(visited,0,sizeof(visited));
-    memset(leaves,0,sizeof(leaves));
-    for(int i=1;i<=n;i++)
-        scanf("%d",&cat[i]);
-    for(int i=1;i<=n-1;i++)
-    {
-        int q,w;
-        scanf("%d %d",&q,&w);
-        adj[q][w] = 1;
+int main(){
+    int i;
+    scanf("%d %d",&n,&m);
+    for(i=1; i<=n; i++)
+        scanf("%d",&arr[i]);
+    for(i=1; i<n; i++){
+        int x, y;
+        scanf("%d",&x);
+        scanf("%d",&y);
+        adj[x][y] = 1;
     }
-    
-    for(int i=1;i<=n;i++)
-    {
-        flag=0;
-        for(int j=1;j<=n;j++)
-        {
-            if(adj[i][j]==1)
-                flag=1;
-        }
-        if(flag==0)
-        {
-            prev = 1;
-            cat_cnt=0,go_in = 1;
-            memset(visited,0,sizeof(visited));
-            int p = dfs(1,i);
-            printf("DFS for 1, %d is : %d\n",i,p);
-            if(p == 1){
-                printf("answer increased for 1 , %d\n",i);
-                answer++;
-            }
-        }
-    }
-    printf("Answer  : %d\n",answer);
+    dfs(1,0);
+    printf("\n%d",ans);
+    return 0;
 }
