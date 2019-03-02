@@ -84,7 +84,6 @@ int main()
         {
             if(color[t]==color[j] && visited[j]==0)
             {
-//                printf("num = %d posi = %d\n",num,j);
                 a[j]=num;
                 visited[j]=1;
                 break;
