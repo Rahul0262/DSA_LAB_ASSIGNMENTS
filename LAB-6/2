@@ -1,0 +1,73 @@
+#include<stdio.h>
+#include<string.h>
+#include<stdlib.h>
+#define N 100
+int pairs[N][2];
+
+int n,m,k;
+
+int asc(const void *a, const void *b){
+    return *((int*)a) - *((int*)b);
+}
+
+int desc(const void *a, const void *b){
+    return *((int*)b) - *((int*)a);
+}
+
+void swap(int arr[][m], int i, int j, int p){
+    int t = arr[i][j];
+    arr[i][j] = arr[i][p];
+    arr[i][p] = t;
+}
+
+int main(){
+    int x=0;
+    scanf("%d %d %d",&n,&m,&k);
+    int arrs[n][m];
+    int cparrs[n][m];
+    for(int i=0; i<n; i++) {
+        for(int j=0; j<m; j++) {
+            scanf("%d", arrs[i]+j); 
+            cparrs[i][j] = arrs[i][j];
+        }
+        if(k==0)qsort(cparrs[i], m, sizeof(int), asc);
+        else qsort(cparrs[i], m, sizeof(int), desc);
+    }
+
+    for(int i=0; i<n; i++){
+        for(int j=0; j<m; j++){
+            if(arrs[i][j] != cparrs[i][j]){
+                for(int p=j+1; p<m; p++){
+                    if(cparrs[i][j] == arrs[i][p]){
+                        // printf("%d %d\n", j, p);
+                        pairs[x][0]=j;
+                        pairs[x++][1]=p;
+                        for(int l=i; l<n; l++) swap(arrs, l, j, p);
+                        break;
+                    }
+                }
+            }
+        }
+        printf("\n");
+    }
+    for(int i=0; i<x; i++){
+        printf("%d %d\n", pairs[i][0]+1, pairs[i][1]+1);
+    }
+    for(int i=0;i<n;i++)
+    {
+        for(int j=0;j<m;j++)
+        {
+            printf("%d ",arrs[i][j]);
+        }
+        printf("\n");
+    }
+    for(int i=0;i<n;i++)
+    {
+        for(int j=0;j<m;j++)
+        {
+            printf("%d ",cparrs[i][j]);
+        }
+        printf("\n");
+    }
+    return 0;
+}
