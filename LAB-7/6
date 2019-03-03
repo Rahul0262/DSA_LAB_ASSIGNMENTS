@@ -1,0 +1,36 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+int insertsort(int arr[],int len)
+{
+    int cross_line;
+    for(int i=1;i<len;i++)
+    {
+        int key = arr[i];
+        int j=i-1;
+        while(j>=0 && arr[j]>key)
+        {
+            arr[j+1] = arr[j];
+            j--;
+            cross_line++;
+        }
+        arr[j+1] = key;
+    }
+    return cross_line;
+}
+
+int main()
+{
+    int x,a[100],k=0;
+    printf("Enter the array\n");
+    while(scanf("%d",&x))
+    {
+        a[k++] = x;
+        char c;
+        scanf("%c",&c);
+        if(c!=' ')
+            break;
+    }
+    int no_of_cross_line = insertsort(a,k);
+    printf("\nCross lines : %d",no_of_cross_line);
+}
