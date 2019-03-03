@@ -6,7 +6,7 @@ char s[100];
 int check_order(char str[],int len)
 {
     int k;
-    len%2==0 ? (k=(len/2)) : (k=(len/2));
+    len%2==0 ? (k=(len/2)-1) : (k=(len/2));
     for(int i=0;i<k-1;i++)
     {
         for(int j=i+1;j<k;j++)
