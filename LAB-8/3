@@ -1,0 +1,68 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+int q[10000],n=0;
+void push(int x)
+{
+    q[n]=x;
+    n++;
+}
+void pop(int x)
+{
+    q[n-1]=0;
+    n=n-1;
+}
+int main()
+{
+    char s[1000];
+    memset(q,0,sizeof(q));
+    printf("Enter the string : ");
+    scanf("%s",&s);
+    int length = strlen(s);
+    if(s[0]=='}' || s[0]==']' || s[0]==')' || s[length-1]=='{' || s[length-1]=='[' || s[length-1]=='(')
+    {
+        printf("False");
+        return 0;
+    }
+    for(int i=0;i<length;i++)
+    {
+        if(s[i]=='(' || s[i]=='[' || s[i]=='{')
+        {
+            push(s[i]);
+            continue;
+        }
+        else if(s[i]==')')
+        {
+            if(q[n-1]=='(')
+                pop(q[n-1]);
+            else
+            {
+                printf("False");
+                return 0;
+            }
+        }
+        else if(s[i]==']')
+        {
+            if(q[n-1]=='[')
+                pop(q[n-1]);
+            else
+            {
+                printf("False");
+                return 0;
+            }
+        }
+        else if(s[i]=='}')
+        {
+            if(q[n-1]=='{')
+                pop(q[n-1]);
+            else
+            {
+                printf("False");
+                return 0;
+            }
+        }
+        else
+            continue;
+    }
+    printf("True");
+}
