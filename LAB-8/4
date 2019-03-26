@@ -1,0 +1,42 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+int k;
+int asc(const void* a,const void* b)
+{
+    return ( *(int*)a - *(int*)b );
+}
+int check(int arr[],int size)
+{
+    for(int i=0;i<size;i++)
+    {
+        if(arr[i]<k)
+            return -1;
+    }
+    return 1;
+}
+int main()
+{
+    int n;
+    printf("Enter the value of n & k : ");
+    scanf("%d%d",&n,&k);
+    int a[1000];
+    memset(a,0,sizeof(a));
+    for(int i=0;i<n;i++)
+    {
+        scanf("%d",a+i);
+    }
+    int ans=0;
+    while(check(a,n)!=1)
+    {
+        qsort(a,n,sizeof(int),asc);
+        a[0] = a[0] + (2*a[1]);
+        for(int i=1;i<=n-2;i++)
+        {
+            a[i]=a[i+1];
+        }
+        n--;
+        ans++;
+    }
+    printf("No. of min operations : %d",ans);
+}
