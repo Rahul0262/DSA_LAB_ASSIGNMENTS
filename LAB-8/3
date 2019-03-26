@@ -7,7 +7,7 @@ void push(char x)
     q[n]=x;
     n++;
 }
-void pop(char x)
+void pop()
 {
     q[n-1]=0;
     n=n-1;
@@ -34,7 +34,7 @@ int main()
         else if(s[i]==')')
         {
             if(q[n-1]=='(')
-                pop(q[n-1]);
+                pop();
             else
             {
                 printf("False");
@@ -44,7 +44,7 @@ int main()
         else if(s[i]==']')
         {
             if(q[n-1]=='[')
-                pop(q[n-1]);
+                pop();
             else
             {
                 printf("False");
@@ -54,7 +54,7 @@ int main()
         else if(s[i]=='}')
         {
             if(q[n-1]=='{')
-                pop(q[n-1]);
+                pop();
             else
             {
                 printf("False");
