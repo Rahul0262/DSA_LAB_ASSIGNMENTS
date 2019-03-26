@@ -1,13 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-int q[10000],n=0;
-void push(int x)
+char q[10000],n=0;
+void push(char x)
 {
     q[n]=x;
     n++;
 }
-void pop(int x)
+void pop(char x)
 {
     q[n-1]=0;
     n=n-1;
