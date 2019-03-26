@@ -1,0 +1,40 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+int main()
+{
+    int n;
+    printf("Enter the value of n : ");
+    scanf("%d",&n);
+    int arr[n][n];
+    memset(arr,0,sizeof(arr));
+    for(int i=0;i<n;i++)
+        for(int j=0;j<n;j++)
+            scanf("%d",&arr[i][j]);
+    int answer=0;
+    for(int a=1;a<=n;a++)
+    {
+        for(int b=1;b<=n;b++)
+        {
+            for(int i=0;i<=n-a;i++)
+            {
+                for(int j=0;j<=n-b;j++)
+                {
+                    int cnt=0;
+                    for(int q=0;q<a;q++)
+                    {
+                        for(int w=0;w<b;w++)
+                        {
+                            if(arr[i+q][j+w]==1)
+                                cnt++;
+                        }
+                    }
+                    if(cnt==1)
+                        answer++;
+                    cnt=0;
+                }
+            }
+        }
+    }
+    printf("Answer is : %d",answer);
+}
