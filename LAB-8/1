@@ -1,0 +1,48 @@
+#include<stdio.h>
+#include <limits.h>
+int max = INT_MIN , k=0;
+float medians[1000];
+void median(int a[],int size){
+    int count[max] , sum=0, sorted[size] , isodd = size%2 , flag=0;
+    float x,y;
+    for(int i=0;i<=max;i++){
+        count[i]=0;
+    }
+    for(int i=1;i<=size;i++){
+        count[a[i]]++;
+    }
+    for(int i=0;i<=max;i++){
+        printf("i is : %d\n",i);
+        if(count[i]!=0){
+            sum += count[i];
+            if(sum >= (size+1)/2 && isodd && !flag){
+                medians[k++] = i;
+                return;
+            }
+            if(sum >= size/2 && !isodd && !flag){
+                x = i;
+                flag = 1;
+            }
+            if(sum >= (size/2) + 1){
+                y = i;
+                medians[k++] = (x + y)/2;
+                return;
+            }
+        }
+    }
+    return;
+}
+int main(){
+    int n;
+    scanf("%d",&n);
+    int arr[n];
+    for(int i=1;i<=n;i++){
+        scanf("%d",&arr[i]);
+        if(max < arr[i])
+            max = arr[i];
+        median(arr,i);
+    }
+    for(int i=0;i<k;i++){
+        printf("%f\n",medians[i]);
+    }
+}
