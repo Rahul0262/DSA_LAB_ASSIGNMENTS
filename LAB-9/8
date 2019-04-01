@@ -4,7 +4,7 @@
 int k, currCaptial, NumProj, Profit[1000], Captial[1000], visited[1000];
 
 int main(){
-	scanf("%d,%d,%d", &k,&currCaptial,&NumProj);
+	scanf("%d%d%d", &k,&currCaptial,&NumProj);
 	memset(Profit, 0, NumProj*sizeof(int));
 	memset(Captial, 0, NumProj*sizeof(int));
 	memset(visited, 0, NumProj*sizeof(int));
