@@ -1,0 +1,105 @@
+#include<stdio.h>
+#include<string.h>
+#include<stdlib.h>
+int n, grid[1000][1000];
+int visited[1000][1000];
+
+void dfs(int time, int i, int j);
+
+void Top(int i, int j, int time){
+	if(grid[i-1][j] <= time && !visited[i-1][j]){
+		visited[i-1][j] = 1;
+		dfs(time, i-1, j);
+	}
+}
+
+void Down(int i, int j, int time){
+	if(grid[i+1][j] <= time && !visited[i+1][j]){
+		visited[i+1][j] = 1;
+		dfs(time, i+1, j);
+	}
+}
+
+void Left(int i, int j, int time){
+	if(grid[i][j-1] <= time && !visited[i][j-1]){
+		visited[i][j-1] = 1;
+		dfs(time, i, j-1);
+	}
+}
+
+void Right(int i, int j,int time){
+	if(grid[i][j+1] <= time && !visited[i][j+1]){
+		visited[i][j+1] = 1;
+		dfs(time, i, j+1);
+	}
+}
+
+void dfs(int time, int i, int j){
+	if(i == 0){
+		if(j == 0){
+			Right(i, j, time);
+			Down(i, j, time);
+		}
+		else if(j < n-1){
+			Left(i, j, time);
+			Right(i, j, time);
+			Down(i, j, time);
+		}
+		else{
+			Left(i,j, time);
+			Down(i, j, time);
+		}
+	}
+	else if(i < n-1){
+		if(j == 0){
+			Right(i, j, time);
+			Top(i, j, time);
+			Down(i, j, time);
+		}
+		else if(j < n-1){
+			Top(i, j, time);
+			Down(i, j, time);
+			Left(i, j, time);
+			Right(i, j, time);
+		}
+		else{
+			Top(i, j, time);
+			Left(i, j, time);
+			Down(i, j, time);
+		}
+	}
+	else{
+		if(j == 0){
+			Top(i, j, time);
+			Right(i, j, time);
+		}
+		else if(j < n-1){
+			Top(i, j, time);
+			Left(i, j, time);
+			Right(i,j,time);
+		}
+		else{
+			return;
+		}
+	}
+}
+
+int calculateMinTime(){
+	int time = grid[0][0]-1;
+	while(!visited[n-1][n-1]){
+		time++;
+		memset(visited, 0, sizeof(visited));
+		visited[0][0] = 1;
+		dfs(time, 0, 0);
+	}
+	return time;
+}
+
+int main(){
+	scanf("%d", &n);
+	memset(visited, 0, 1000*1000*sizeof(int));
+	for(int i = 0; i<n; i++)
+		for(int j = 0; j<n; j++)
+			scanf("%d", &grid[i][j]);
+	printf("\n%d\n", calculateMinTime());
+}
