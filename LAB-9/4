@@ -1,0 +1,40 @@
+#include <stdio.h>
+#include <stdlib.h>
+int petrol_quan,N;
+int petrol[100];
+int dist[100];
+
+int check(int x)
+{
+    petrol_quan=0;
+    for(int j=0;j<N;j++)
+    {
+        petrol_quan+=petrol[x];
+        if(dist[x]>petrol_quan)
+            return -1;
+        else
+            petrol_quan-=dist[x];
+        if(x==N-1)
+            x=0;
+        else
+            x++;
+    }
+    return 1;
+}
+int main()
+{
+    printf("Enter the value of N : ");
+    scanf("%d",&N);
+    for(int i=0;i<N;i++)
+    {
+        scanf("%d%d",&petrol[i],&dist[i]);
+    }
+    for(int i=0;i<N;i++)
+    {
+        if(check(i)==1)
+        {
+            printf("Answer : %d\n",i);
+            return 0;
+        }
+    }
+}
