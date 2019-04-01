@@ -1,0 +1,30 @@
+#include <stdio.h>
+#define N 100000
+int main(){
+    int c, i, m, n, x, sum=0;
+    int A[N], B[N] ,a=0 , b=0;
+        scanf("%d%d%d", &n, &m, &x);
+        for (i = 0; i<n ; i++) {
+            scanf("%d", &A[i]);
+        }
+        for (i = 0; i<m ; i++) {
+            scanf("%d", &B[i]);
+        }
+        while (a < n && sum + A[a] <= x){
+            sum += A[a];
+            a++;
+        }
+        c = a;
+        while(b < m && a >= 0){
+            sum += B[b];
+            b++;
+            while(sum > x && a>0){
+                sum -= A[a-1];
+                a--;
+            }
+            if(a+b > c)
+                c = a+b;
+        }
+        printf("%d\n", c);
+    return 0;
+}
