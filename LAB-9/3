@@ -1,0 +1,52 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+int k,ans=0;
+int* factors(int n)
+{
+    static int a[1000];
+    memset(a,0,sizeof(a));
+    k=0;
+    for(int i=1;i<=n;i++)
+    {
+        if(n%i==0)
+            a[k++]=i;
+    }
+    return a;
+}
+int check_prime(int n)
+{
+    if(k==2)
+        return 1;
+    return -1;
+}
+void print(int x)
+{
+    int* temp=factors(x);
+    int num = temp[k/2];
+//    for(int i=0;i<k;i++)
+//        printf("%d ",temp[i]);
+    if(check_prime(x)==1 || x==1)
+    {
+        ans+=x;
+        printf("Answer : %d\n",ans);
+        return;
+    }
+    else
+    {
+        ans+=1;
+        print(num);
+    }
+}
+int main()
+{
+    int q;
+    int N;
+    scanf("%d",&q);
+    for(int i=0;i<q;i++)
+    {
+        scanf("%d",&N);
+        print(N);
+        ans=0;
+    }
+}
