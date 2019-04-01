@@ -1,0 +1,69 @@
+#include <stdio.h>
+#include <stdlib.h>
+void swap(int* a,int* b){int temp = *a ; *a = *b ; *b = temp;}
+int main(){
+    int n , k , ct = 0 , over =1 ; // 'ct' = current time
+    scanf("%d %d",&n,&k);
+    int start[n] , duration[n] , wait[n];
+    for(int i=0;i<n;i++){         
+        scanf("%d %d",&start[i],&duration[i]);
+        wait[i] = 0;
+    }
+    for(int i=0;i<n-1;i++){
+        for(int j=i+1;j<n;j++){
+            if(start[i] > start[j] || ( start[i] == start[j] && duration[i] > duration[j] )){
+                swap(&start[i],&start[j]);
+                swap(&duration[i],&duration[j]);
+            }
+        }
+    }
+    do{
+        over = 1;
+        for(int i=0;i<n;i++){   // pick each process
+            int t=1;
+            /*
+             case 1: if the system is idle in between 
+             case 2: add initial wait time if first process itself is starting at time > 0
+            */
+            if(ct < start[i]){  
+                ct = start[i];
+                for(int j=0 ; j<n ; j++){
+                    if(start[j] <= ct && j!=i && duration[j]!=0)   
+                        wait[j]++;
+                }
+                if(i == 0)   //only for case 2
+                    wait[0]++;
+            }
+            while(duration[i] > 0 && t <= k){   //can execute this process for <= k seconds
+                duration[i]--;
+                printf(" process executed is : %d\n",i);
+                /* increase wait-time for every other process that has 
+                   already been registered and is not yet finished */
+                for(int j=0 ; j<n ; j++){
+                    if(start[j] <= ct && j!=i && duration[j]!=0 )   
+                        wait[j]++;
+                }
+                t++;
+                ct++;
+                for(int i=0;i<n;i++){
+                    printf("%d ",wait[i]);
+                }
+                printf("\n");
+            }
+        }
+        int count = 0 , index = 0;
+        for(int i=0;i<n;i++){
+            if(duration[i] != 0){
+                over = 0;
+                count++;
+                index = i;
+            }
+        }
+        
+    }while(over == 0);
+    float sum_wt = 0;
+    for(int i=0;i<n;i++)
+        sum_wt += wait[i];
+    printf("average time : %f\n" , sum_wt/n);
+    return 0;
+}
