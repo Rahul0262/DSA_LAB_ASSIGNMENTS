@@ -1,0 +1,122 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+#include<limits.h>
+
+int arr[1000], count = 0;
+
+void print(){
+	printf("\n");
+	for(int i = 0 ; i<count; i++){
+		printf("%d ", arr[i]);
+	}
+	printf("\n");
+}
+
+void Push(int num){
+	arr[count++] = num;
+	//print();
+}
+
+void Diff(){
+	if(count == 0){
+		printf("-1\n");
+		return;
+	}
+	int high = arr[0];
+	int h_index = 0;
+	for(int i = 0; i<count;i++){
+		if(arr[i] >= high){
+			high = arr[i];
+			h_index = i;
+		}
+	}
+	int low = INT_MAX;
+	int l_index = 0;
+	for(int i = 0; i<count;i++){
+		if(arr[i] <= low){
+			low = arr[i];
+			l_index = i;
+		}
+	}
+	if(h_index != l_index){
+		for(int i = h_index; i<count; i++){
+			arr[i] = arr[i+1];
+		}
+		count--;
+		for(int i = l_index; i<count; i++){
+			arr[i] = arr[i+1];
+		}
+		count--;
+	}
+	else{
+		for(int i = h_index; i<count; i++){
+			arr[i] = arr[i+1];
+		}
+		count--;
+	}
+
+	printf("%d\n", high-low);
+	//print();
+}
+
+void CountHigh(){
+	if(count == 0){
+		printf("-1\n");
+		return;
+	}
+	int high = arr[0];
+	for(int i = 0; i<count;i++){
+		if(arr[i] > high){
+			high = arr[i];
+		}
+	}
+	int ans = 0;
+	for(int i = 0; i<=count; i++){
+		if(arr[i] == high)
+			ans++;
+	}
+	printf("%d\n", ans);
+	//print();
+}
+
+void CountLow(){
+	if(count == 0){
+		printf("-1\n");
+		return;
+	}
+	int low = INT_MAX;
+	for(int i = 0; i<count;i++){
+		if(arr[i] < low && arr[i] != -1){
+			low = arr[i];
+		}
+	}
+	int ans = 0;
+	for(int i = 0; i<=count; i++){
+		if(arr[i] == low)
+			ans++;
+	}
+	printf("%d\n", ans);
+	//print();
+}
+
+int main(){
+	int n; 
+	char string[20];
+	scanf("%d", &n);
+	memset(arr, -1, sizeof(arr));
+	int temp;
+	for(int i = 0; i<n; i++){
+		scanf("%s", string);
+		if(!strcmp(string, "Push")){
+			scanf("%d", &temp);
+			Push(temp);
+		}
+		else if(!strcmp(string, "Diff"))
+			Diff();
+		else if(!strcmp(string, "CountHigh"))
+			CountHigh();
+		else if(!strcmp(string, "CountLow"))
+			CountLow();
+	}
+}
