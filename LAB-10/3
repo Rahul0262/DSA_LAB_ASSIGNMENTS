@@ -1,0 +1,121 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+#include<limits.h>
+#define N 100
+
+int minheap[N];
+int n_min;
+int maxheap[N];
+int n_max;
+
+void swap(int arr[], int i, int j){
+    int t = arr[i];
+    arr[i] = arr[j];
+    arr[j] = t;
+}
+
+void add_min(int x){
+    minheap[n_min] = x;
+    if(n_min==0){
+        n_min++;
+        return;
+    }
+
+    int pi = (n_min-1)/2;
+    int ci = n_min;
+    int tmp = 0;
+    while(pi>=0){
+        if(minheap[pi]>minheap[ci]){ 
+            swap(minheap, pi, ci);
+            ci = pi;
+            pi = (ci-1)/2;
+        } else break;
+    }
+    n_min++;
+}
+
+int del_min(){
+    int res = minheap[0];
+    minheap[0] = minheap[n_min-1];
+    n_min--;
+
+    int pi = 0;
+    int c1 = 2*pi+1;
+    int c2 = 2*pi+2;
+    int min;
+    while(pi<=n_min/2){
+        min = 2*pi+1;
+        if(2*pi+2<=n_min && minheap[2*pi+1] > minheap[2*pi+2]) min = 2*pi+2;
+        if(minheap[min] < minheap[pi]){
+            swap(minheap, min, pi);
+            pi = min;
+        }else break;
+    }
+    return res;
+}
+
+void add_max(int x){
+    maxheap[n_max] = x;
+    if(n_max==0){
+        n_max++;
+        return;
+    }
+
+    int pi = (n_max-1)/2;
+    int ci = n_max;
+    int tmp = 0;
+    while(pi>=0){
+        if(maxheap[pi]<maxheap[ci]){ 
+            swap(maxheap, pi, ci);
+            ci = pi;
+            pi = (ci-1)/2;
+        }
+        else break;
+    }
+    n_max++;
+}
+
+int del_max(){
+int res = maxheap[0];
+    maxheap[0] = maxheap[n_max-1];
+    n_max--;
+
+    int pi = 0;
+    int c1 = 2*pi+1;
+    int c2 = 2*pi+2;
+    int min;
+    while(pi<=n_max/2){
+        min = 2*pi+1;
+        if(2*pi+2<=n_max && maxheap[2*pi+1] > maxheap[2*pi+2]) min = 2*pi+2;
+        if(maxheap[min] > maxheap[pi]){
+            swap(minheap, min, pi);
+            pi = min;
+        }else break;
+    }
+    return res;
+}
+
+int main(){
+    int n; scanf("%d", &n);
+    int arr[n]; for(int i=0; i<n; i++) scanf("%d", arr+i);
+
+    for(int i=0; i<n; i++) {
+        add_max(arr[i]);
+
+        if(n_max-n_min>1){
+            add_min(del_max());
+        }
+
+        if(n_min>n_max){
+            printf("%d\n", minheap[0]);
+        }else if(n_min<n_max){
+            printf("%d\n", maxheap[0]);
+        }else{
+            printf("%d\n", (minheap[0]+maxheap[0])/2);
+        }
+    }
+   
+    
+    return 0;
+}
