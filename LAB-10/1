@@ -1,0 +1,42 @@
+#include<stdio.h>
+#include<string.h>
+#include<stdlib.h>
+#include<limits.h>
+int n, a1[1000], a2[1000], k;
+
+int findMaxKPairs(){
+	int index[n];
+	memset(index, 0, sizeof(index));
+	while(k > 0){
+		int maxSum = INT_MIN;
+		int maxIndex = 0;
+		for(int i=0; i<n; i++){
+			if(index[i] < n && a1[i] + a2[index[i]] > maxSum){
+				maxIndex = i;
+				maxSum = a1[i] + a2[index[i]];
+			}
+		}
+		printf("%d ", maxSum);
+		index[maxIndex]++;
+		k--;
+	}
+}
+
+int cmp(const void* a, const void* b){
+	return *(const int*)b - *(const int*) a;
+}
+
+int main(){
+	memset(a1, 0, sizeof(a1));
+	memset(a2, 0, sizeof(a2));
+	scanf("%d %d", &n, &k);
+	for(int i = 0; i < n; i++){
+		scanf("%d", &a1[i]);
+	}
+	for(int i = 0; i < n; i++){
+		scanf("%d", &a2[i]);
+	}
+	qsort(a1, n, sizeof(int), cmp);
+	qsort(a2, n, sizeof(int), cmp);
+	findMaxKPairs();
+}
